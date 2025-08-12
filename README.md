@@ -34,11 +34,13 @@ Create/edit %UserProfile%\.wslconfig (Windows path).
 
 ```
 [wsl2]
-memory=16GB          # RAM cap (e.g., 8GB, 16GB, 50%)
+memory=28GB          # RAM cap (e.g., 8GB, 16GB, 50%)
 processors=8         # optional
 swap=16GB            # optional
 swapfile=C:\\wsl-swap.vhdx  # optional
 ```
+
+Adjust the above values to fit your hardware.
 
 powershell
 ```wsl --shutdown```
