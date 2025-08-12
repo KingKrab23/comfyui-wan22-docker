@@ -17,3 +17,14 @@ Wait like 10-20 minutes for the models to download. You can see the progress in 
 ```docker compose down```
 
 ```docker compose up -d```
+
+# Docker Settings
+ComfyUI Port: ```COMFYUI_PORT: "8188"```
+
+Download the Wan2.2 HighNoise, LowNoise, and misc supportive models/vae/etc automatically? ```WAN_AUTO_DL: "1"```
+
+WAN 2.2 Model version to download: ```WAN_QUANT: "Q6_K"```
+
+Whether to use SageAttention: ```SAGEATTN: "1"```
+
+ComfyUI VRAM Setting: ```VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram```
