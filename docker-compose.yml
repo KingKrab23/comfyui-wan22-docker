@@ -1,0 +1,15 @@
+services:
+  comfy:
+    image: drummer33/comfyui-wan22:cu128
+    ports:
+      - "8188:8188"
+    environment:
+      COMFYUI_PORT: "8188"
+      WAN_AUTO_DL: "1"
+      WAN_QUANT: "Q6_K"
+      SAGEATTN: "1"
+    volumes:
+      - "G:/AI/ComfyUI/models:/opt/ComfyUI/models"
+    gpus: all 
+    # On Docker Desktop, Compose uses the host GPU; you can also add:
+    # gpus: all
