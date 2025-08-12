@@ -8,6 +8,7 @@ services:
       WAN_AUTO_DL: "1"
       WAN_QUANT: "Q6_K"
       SAGEATTN: "1"
+      VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram
     volumes:
       - "G:/AI/ComfyUI/models:/opt/ComfyUI/models"
     gpus: all 

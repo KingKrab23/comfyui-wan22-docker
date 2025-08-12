@@ -12,4 +12,4 @@ if [[ "${SAGEATTN:-0}" == "1" ]]; then
   echo "[SagePatch] Enabling SageAttention (overriding torch.nn.functional.scaled_dot_product_attention)"
 fi
 
-exec python main.py --listen 0.0.0.0 --port "${COMFYUI_PORT:-8188}"
+exec python main.py --listen 0.0.0.0 --port "${COMFYUI_PORT:-8188}" --${VRAMSETTING:-normalvram}
