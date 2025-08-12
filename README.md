@@ -28,3 +28,23 @@ WAN 2.2 Model version to download: ```WAN_QUANT: "Q6_K"```
 Whether to use SageAttention: ```SAGEATTN: "1"```
 
 ComfyUI VRAM Setting: ```VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram```
+
+# Docker Windows Memory Settings
+Create/edit %UserProfile%\.wslconfig (Windows path).
+
+```
+[wsl2]
+memory=16GB          # RAM cap (e.g., 8GB, 16GB, 50%)
+processors=8         # optional
+swap=16GB            # optional
+swapfile=C:\\wsl-swap.vhdx  # optional
+```
+
+powershell
+```wsl --shutdown```
+
+```wsl -d Ubuntu-24.04``` Change Ubuntu-24.04 to whatever your WSL2 distro is, ex Ubuntu
+
+Verify inside WSL:
+
+```free -h```
