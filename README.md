@@ -29,7 +29,7 @@ Whether to use SageAttention: ```SAGEATTN: "1"```
 
 ComfyUI VRAM Setting: ```VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram```
 
-# Docker Windows Memory Settings
+# Docker Windows Memory Settings for WSL2
 Create/edit %UserProfile%\.wslconfig (Windows path).
 
 ```
