@@ -84,6 +84,7 @@
     
     RUN apt-get update && apt-get install -y --no-install-recommends \
         python3 git curl unzip ffmpeg libgl1 libglib2.0-0 ca-certificates \
+        python3-dev build-essential ninja-build cmake clang \
      && rm -rf /var/lib/apt/lists/*
     
     # copy venv + app first so we can use /opt/venv/bin/python

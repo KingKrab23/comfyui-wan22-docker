@@ -9,6 +9,8 @@ services:
       WAN_QUANT: "Q6_K"
       SAGEATTN: "1"
       VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram
+      CC: /usr/bin/gcc
+      CXX: /usr/bin/g++
     volumes:
       - "G:/AI/ComfyUI/models:/opt/ComfyUI/models"
     gpus: all 
