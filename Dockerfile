@@ -91,7 +91,7 @@
     COPY --from=builder /opt/ComfyUI /opt/ComfyUI
     
     # now install extra deps with the venv python
-    RUN /opt/venv/bin/python -m pip install --no-cache-dir omegaconf webcolors piexif && \
+    RUN /opt/venv/bin/python -m pip install --no-cache-dir omegaconf webcolors piexif gguf && \
         for req in /opt/ComfyUI/custom_nodes/*/requirements.txt; do \
           [ -f "$req" ] && /opt/venv/bin/python -m pip install --no-cache-dir -r "$req"; \
         done
