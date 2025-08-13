@@ -11,7 +11,7 @@ in docker-compose change WAN_QUANT to the QuantStack WAN 2.2 model you want to u
 ```docker compose up -d```
 
 ### ZzZz
-Wait like 10-20 minutes for the models to download. You can see the progress in docker-desktop with ```docker exec -it comfyui-wan22-docker-comfy-1 tail -f /var/log/bootstrap_models.log```
+Wait like 10-20 minutes for the models to download. You can see the progress in docker with ```docker exec -it comfyui-wan22-docker-comfy-1 tail -f /var/log/bootstrap_models.log``` 
 
 ### Restart if you don't see your models and or comfyui manager button
 ```docker compose down```
@@ -30,7 +30,7 @@ Whether to use SageAttention: ```SAGEATTN: "1"```
 ComfyUI VRAM Setting: ```VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram```
 
 # Docker Windows Memory Settings for WSL2
-Create/edit %UserProfile%\.wslconfig (Windows path).
+Create/edit %UserProfile%\\.wslconfig (Windows path).
 
 ```
 [wsl2]
