@@ -84,8 +84,16 @@
     
     RUN apt-get update && apt-get install -y --no-install-recommends \
         python3 git curl unzip ffmpeg libgl1 libglib2.0-0 ca-certificates \
-        python3-dev build-essential ninja-build cmake clang \
-     && rm -rf /var/lib/apt/lists/*
+        python3-dev build-essential ninja-build cmake clang cuda-toolkit \
+        && rm -rf /var/lib/apt/lists/*
+
+    ENV CUDA_HOME=/usr/local/cuda
+    ENV CC=/usr/bin/gcc CXX=/usr/bin/g++
+    # ensure libcuda symlink exists when only .so.1 is present
+    RUN if [ -f /usr/lib/x86_64-linux-gnu/libcuda.so.1 ] && \
+        [ ! -f /usr/lib/x86_64-linux-gnu/libcuda.so ]; then \
+        ln -s /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so ; \
+        fi
     
     # copy venv + app first so we can use /opt/venv/bin/python
     COPY --from=builder /opt/venv    /opt/venv
