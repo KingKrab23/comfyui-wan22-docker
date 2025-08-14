@@ -82,24 +82,37 @@
     FROM nvidia/cuda:${CUDA_VER}-runtime-ubuntu${UBUNTU_VER}
     ENV DEBIAN_FRONTEND=noninteractive
     
+    # Minimal deps + CUDA headers/stubs (no full toolkit)
     RUN apt-get update && apt-get install -y --no-install-recommends \
-        python3 git curl unzip ffmpeg libgl1 libglib2.0-0 ca-certificates \
-        python3-dev build-essential ninja-build cmake clang cuda-toolkit \
+          python3 git curl unzip ffmpeg libgl1 libglib2.0-0 ca-certificates \
+          python3-dev build-essential ninja-build cmake clang \
+          cuda-driver-dev-12-8 \
         && rm -rf /var/lib/apt/lists/*
-
-    ENV CUDA_HOME=/usr/local/cuda
-    ENV CC=/usr/bin/gcc CXX=/usr/bin/g++
-    # ensure libcuda symlink exists when only .so.1 is present
+    
+    # CUDA paths visible to all child processes (matches what you proved works)
+    ENV CUDA_HOME=/usr/local/cuda \
+        CC=/usr/bin/gcc \
+        CXX=/usr/bin/g++ \
+        CPATH=/usr/local/cuda/include:${CPATH} \
+        C_INCLUDE_PATH=/usr/local/cuda/include:${C_INCLUDE_PATH} \
+        CPLUS_INCLUDE_PATH=/usr/local/cuda/include:${CPLUS_INCLUDE_PATH} \
+        LIBRARY_PATH=/usr/local/cuda/lib64:${LIBRARY_PATH} \
+        LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+    
+    # Ensure linker finds -lcuda even if only .so.1 is present
     RUN if [ -f /usr/lib/x86_64-linux-gnu/libcuda.so.1 ] && \
-        [ ! -f /usr/lib/x86_64-linux-gnu/libcuda.so ]; then \
-        ln -s /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so ; \
+          [ ! -e /usr/lib/x86_64-linux-gnu/libcuda.so ]; then \
+          ln -s /usr/lib/x86_64-linux-gnu/libcuda.so.1 /usr/lib/x86_64-linux-gnu/libcuda.so ; \
         fi
+    
+    # Make CUDA lib dir known system-wide (non-shell processes)
+    RUN echo "/usr/local/cuda/lib64" > /etc/ld.so.conf.d/cuda.conf && ldconfig
     
     # copy venv + app first so we can use /opt/venv/bin/python
     COPY --from=builder /opt/venv    /opt/venv
     COPY --from=builder /opt/ComfyUI /opt/ComfyUI
     
-    # now install extra deps with the venv python
+    # install any extras with the venv python
     RUN /opt/venv/bin/python -m pip install --no-cache-dir omegaconf webcolors piexif gguf && \
         for req in /opt/ComfyUI/custom_nodes/*/requirements.txt; do \
           [ -f "$req" ] && /opt/venv/bin/python -m pip install --no-cache-dir -r "$req"; \
@@ -114,12 +127,11 @@
         SAGEATTN=1
     
     VOLUME ["/opt/ComfyUI/models"]
-
+    
     COPY tools/bootstrap_models.py /opt/tools/bootstrap_models.py
-
+    
     WORKDIR /opt/ComfyUI
     COPY entrypoint.sh /entrypoint.sh
     RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
     EXPOSE 8188
     ENTRYPOINT ["/entrypoint.sh"]
-    
