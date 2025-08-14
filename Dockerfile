@@ -93,11 +93,11 @@
     ENV CUDA_HOME=/usr/local/cuda \
         CC=/usr/bin/gcc \
         CXX=/usr/bin/g++ \
-        CPATH=/usr/local/cuda/include:${CPATH} \
-        C_INCLUDE_PATH=/usr/local/cuda/include:${C_INCLUDE_PATH} \
-        CPLUS_INCLUDE_PATH=/usr/local/cuda/include:${CPLUS_INCLUDE_PATH} \
-        LIBRARY_PATH=/usr/local/cuda/lib64:${LIBRARY_PATH} \
-        LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+        CPATH="/usr/local/cuda/include${CPATH:+:${CPATH}}" \
+        C_INCLUDE_PATH="/usr/local/cuda/include${C_INCLUDE_PATH:+:${C_INCLUDE_PATH}}" \
+        CPLUS_INCLUDE_PATH="/usr/local/cuda/include${CPLUS_INCLUDE_PATH:+:${CPLUS_INCLUDE_PATH}}" \
+        LIBRARY_PATH="/usr/local/cuda/lib64${LIBRARY_PATH:+:${LIBRARY_PATH}}" \
+        LD_LIBRARY_PATH="/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
     
     # Ensure linker finds -lcuda even if only .so.1 is present
     RUN if [ -f /usr/lib/x86_64-linux-gnu/libcuda.so.1 ] && \

@@ -9,10 +9,24 @@ services:
       WAN_QUANT: "Q6_K"
       SAGEATTN: "1"
       VRAMSETTING: "lowvram" # normalvram, lowvram, or highvram
+
+      # toolchain
       CC: /usr/bin/gcc
       CXX: /usr/bin/g++
+
+      # CUDA visibility (headers + libs)
+      CUDA_HOME: /usr/local/cuda
+      CPATH: /usr/local/cuda/include
+      C_INCLUDE_PATH: /usr/local/cuda/include
+      CPLUS_INCLUDE_PATH: /usr/local/cuda/include
+      LIBRARY_PATH: /usr/local/cuda/lib64
+      LD_LIBRARY_PATH: /usr/local/cuda/lib64
+
+      # PyTorch tuning (optional but recommended)
+      PYTORCH_CUDA_ALLOC_CONF: "expandable_segments:True,max_split_size_mb:128"
+      PYTORCH_ALLOW_TF32: "1"
+      NVIDIA_TF32_OVERRIDE: "1"
     volumes:
       - "G:/AI/ComfyUI/models:/opt/ComfyUI/models"
-    gpus: all 
-    # On Docker Desktop, Compose uses the host GPU; you can also add:
-    # gpus: all
+
+    gpus: all

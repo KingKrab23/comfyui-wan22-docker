@@ -66,6 +66,8 @@ fallbacks = [
     ("bullerwins/Wan2.2-I2V-A14B-GGUF", f"LowNoise/Wan2.2-I2V-A14B-LowNoise-{quant}.gguf"),
 ]
 
+
+
 for (repo, path), (frepo, fpath) in zip(pairs, fallbacks):
     target = os.path.join(UNET_DIR, os.path.basename(path))
     if os.path.exists(target):
